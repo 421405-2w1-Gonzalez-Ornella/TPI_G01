@@ -31,3 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Backend
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend (Node / Angular)
+frontend/node_modules/
+frontend/.angular/
+frontend/dist/
