@@ -1,0 +1,90 @@
+<article 
+  class="course" 
+  tabindex="0" 
+  [attr.aria-label]="ariaLabelTarjeta"
+>
+  <!-- Cabecera de la Tarjeta -->
+  <header class="course-top" [ngClass]="headerClass">
+    <div class="row">
+      <span class="course-cohort">{{ cohorte.periodo }}</span>
+      
+      <!-- Badge de Estado con ícono semántico y aria-label accesible (CA2) -->
+      <span 
+        class="chip status-badge" 
+        [ngClass]="chipEstadoClass"
+        role="status"
+        [attr.aria-label]="ariaLabelEstado"
+      >
+        <!-- Ícono semántico diferenciador según estado -->
+        <svg *ngIf="estadoNormalizado === 'ACTIVE'" class="i status-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 12.5 9.5 17.5 19.5 6.5"/>
+        </svg>
+        <svg *ngIf="estadoNormalizado === 'DRAFT'" class="i status-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+        </svg>
+        <svg *ngIf="estadoNormalizado === 'ARCHIVED'" class="i status-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <polyline points="21 8 21 21 3 21 3 8"/>
+          <rect x="1" y="3" width="22" height="5"/>
+          <line x1="10" y1="12" x2="14" y2="12"/>
+        </svg>
+        <span>{{ textoEstado }}</span>
+      </span>
+    </div>
+
+    <div class="course-header-content">
+      <h3 class="course-code">{{ cohorte.codigoComision }}</h3>
+      <p class="course-name">{{ cohorte.materia }}</p>
+      <div class="course-students-wrap">
+        <span class="chip chip-yel course-students-chip">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="9.5" cy="8.5" r="3.5"/>
+            <path d="M3.5 20a6 6 0 0 1 12 0M17 5.4a3.5 3.5 0 0 1 0 6.2M18.5 20a6 6 0 0 0-2.2-4.6"/>
+          </svg>
+          {{ cohorte.alumnosMatriculados }} Alumnos Matriculados
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cuerpo de la Tarjeta -->
+  <div class="course-body">
+    <div class="course-meta">
+      <span class="chip">{{ cohorte.totalDesafios }} desafíos</span>
+      <span *ngIf="cohorte.calibracionIAPendiente" class="chip chip-yel chip-calibration">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--yel, #f6ad3c);">
+          <path d="M13.5 2.5 5 13.5h5.5L10 21.5l8.5-11H13z"/>
+        </svg>
+        Calibración IA pendiente
+      </span>
+    </div>
+
+    <!-- Código de Invitación Docente con Botón de Copiado -->
+    <div class="invitation-pill">
+      <span class="invitation-caption">CÓDIGO DE INVITACIÓN DOCENTE:</span>
+      <div class="invitation-row">
+        <strong class="code-text">{{ cohorte.codigoInvitacion }}</strong>
+        <button 
+          type="button" 
+          class="btn btn-yel btn-sm btn-copy" 
+          (click)="onCopiarCodigo($event)"
+          [attr.aria-label]="'Copiar código de invitación ' + cohorte.codigoInvitacion"
+        >
+          Copiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Pie de la Tarjeta y Acción Principal -->
+    <footer class="course-foot">
+      <span class="cycle-info">{{ textoCiclo }}</span>
+      <button 
+        type="button" 
+        class="btn btn-cel btn-admin-cohorte"
+        (click)="onAdministrar()"
+        [attr.aria-label]="'Administrar cohorte ' + cohorte.codigoComision"
+      >
+        Administrar Cohorte ➔
+      </button>
+    </footer>
+  </div>
+</article>

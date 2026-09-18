@@ -1,0 +1,260 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* Card Container */
+.course {
+  background: var(--card, #151e2e);
+  border: var(--bd, 2.5px solid #24334a);
+  border-radius: var(--r-l, 26px);
+  box-shadow: var(--sh-lg, 6px 6px 0 #05080e);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s cubic-bezier(.34,1.56,.64,1), border-color .15s ease;
+  outline: none;
+}
+
+.course:hover {
+  transform: translate(-3px, -3px);
+  border-color: var(--cel, #00bcd4);
+}
+
+/* Accesibilidad CA1: Navegación por teclado */
+.course:focus-visible {
+  border-color: var(--cel, #00bcd4);
+  outline: 3px solid var(--cel, #00bcd4);
+  outline-offset: 3px;
+}
+
+/* Cabecera de la Tarjeta */
+.course-top {
+  padding: 22px 24px;
+  border-bottom: var(--bd, 2.5px solid #24334a);
+  position: relative;
+  overflow: hidden;
+}
+
+.course-top.a { background: linear-gradient(135deg, rgba(0, 188, 212, 0.25), #151e2e); }
+.course-top.b { background: linear-gradient(135deg, rgba(246, 173, 60, 0.25), #151e2e); }
+.course-top.c { background: linear-gradient(135deg, rgba(217, 78, 130, 0.25), #151e2e); }
+
+.course-top .row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.course-cohort {
+  font-family: var(--font-head, 'Fredoka', system-ui, sans-serif);
+  font-weight: 700;
+  font-size: .82rem;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--cel, #00bcd4);
+}
+
+.course-header-content {
+  margin-top: 14px;
+}
+
+.course-code {
+  font-family: var(--font-head, 'Fredoka', system-ui, sans-serif);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1.3;
+  color: #ffffff;
+  margin: 0;
+}
+
+.course-name {
+  font-family: var(--font-body, 'Nunito', system-ui, sans-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink-soft, #8a99ad);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.course-students-wrap {
+  margin-top: 12px;
+}
+
+.course-students-chip {
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--r-pill, 999px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Cuerpo de la Tarjeta */
+.course-body {
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.course-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-calibration {
+  border-color: #f59e0b !important;
+}
+
+/* Bloque del Código de Invitación */
+.invitation-pill {
+  background: var(--card-alt, #101a29);
+  border: var(--bd-thin, 2px solid #24334a);
+  border-radius: var(--r-m, 20px);
+  padding: 14px 18px;
+  box-shadow: var(--sh-sm, 2px 2px 0 #05080e);
+}
+
+.invitation-caption {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--ink-soft, #8a99ad);
+  letter-spacing: 0.05em;
+}
+
+.invitation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+  gap: 8px;
+}
+
+.code-text {
+  font-family: var(--font-mono, monospace);
+  font-weight: 800;
+  color: var(--cel, #00bcd4);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  user-select: all;
+}
+
+/* Pie de Tarjeta */
+.course-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.cycle-info {
+  font-size: 0.92rem;
+  color: var(--ink-soft, #8a99ad);
+  font-weight: 700;
+}
+
+.btn-admin-cohorte {
+  width: 100%;
+  padding: 13px 24px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  justify-content: center;
+  border-radius: var(--r-pill, 999px);
+  box-shadow: var(--sh-md, 4px 4px 0 #05080e);
+  transition: all 0.16s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer;
+}
+
+.btn-admin-cohorte:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 188, 212, 0.4);
+}
+
+/* Íconos SVG */
+svg.i {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  stroke-width: 2.2;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.status-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* Botones y Chips internos */
+.btn {
+  font-family: var(--font-body, system-ui, sans-serif);
+  font-weight: 800;
+  font-size: .88rem;
+  border-radius: var(--r-pill, 999px);
+  padding: 10px 22px;
+  border: var(--bd, 2.5px solid #24334a);
+  box-shadow: var(--sh-md, 4px 4px 0 #05080e);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform .17s cubic-bezier(.34,1.56,.64,1), box-shadow .17s cubic-bezier(.34,1.56,.64,1);
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--sh-lg, 6px 6px 0 #05080e);
+}
+
+.btn:active {
+  transform: translate(2px, 2px) scale(.98);
+  box-shadow: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.btn-cel { background: var(--cel, #00bcd4); color: #071722; }
+.btn-yel { background: var(--yel, #f6ad3c); color: #1a1202; }
+
+.btn-sm {
+  padding: 6px 14px;
+  font-size: .78rem;
+  box-shadow: var(--sh-sm, 2px 2px 0 #05080e);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border: var(--bd-thin, 2px solid #24334a);
+  border-radius: var(--r-pill, 999px);
+  background: var(--card-alt, #101a29);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  box-shadow: var(--sh-sm, 2px 2px 0 #05080e);
+  color: var(--ink, #edf2f7);
+}
+
+.chip-cel { background: var(--t-cel, rgba(0, 188, 212, 0.15)); color: var(--cel, #00bcd4); border-color: var(--cel, #00bcd4); }
+.chip-yel { background: var(--t-yel, rgba(246, 173, 60, 0.15)); color: var(--yel, #f6ad3c); border-color: var(--yel, #f6ad3c); }
+.chip-vio { background: var(--t-vio, rgba(217, 78, 130, 0.15)); color: var(--vio, #d94e82); border-color: var(--vio, #d94e82); }
+.chip-grn { background: var(--t-grn, rgba(16, 185, 129, 0.15)); color: var(--grn, #10b981); border-color: var(--grn, #10b981); }

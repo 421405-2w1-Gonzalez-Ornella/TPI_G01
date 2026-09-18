@@ -2,23 +2,13 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-
-interface CohorteDocente {
-  id: string;
-  codigoComision: string;
-  materia: string;
-  periodo: string;
-  estado: 'activo' | 'borrador' | 'archivado';
-  alumnosMatriculados: number;
-  totalDesafios: number;
-  codigoInvitacion: string;
-  calibracionIAPendiente: boolean;
-}
+import { CohorteDocente } from '../../models/cohorte.model';
+import { CohortCardComponent } from '../../shared/components/cohort-card/cohort-card.component';
 
 @Component({
   selector: 'app-teacher-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CohortCardComponent],
   templateUrl: './teacher-dashboard.component.html',
   styleUrl: './teacher-dashboard.component.css'
 })
@@ -160,6 +150,10 @@ export class TeacherDashboardComponent {
   guardarPlantilla(): void {
     this.modalCrearPlantillaAbierto = false;
     alert(`¡Plantilla "${this.nuevaPlantillaNombre}" creada con éxito!`);
+  }
+
+  onAdministrarCohorte(cohorte: CohorteDocente): void {
+    alert(`Administrando cohorte: ${cohorte.codigoComision} (${cohorte.periodo})`);
   }
 
   // Métodos del Menú de Perfil Docente

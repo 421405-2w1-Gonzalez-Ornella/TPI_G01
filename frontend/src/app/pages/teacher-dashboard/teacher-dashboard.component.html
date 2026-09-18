@@ -149,72 +149,94 @@
         </div>
       </div>
 
-      <!-- Filtros y Buscador -->
+      <!-- Filtros y Buscador con accesibilidad ARIA (CA1) -->
       <div class="toolbar-kawaii">
-        <div class="chips-group">
-          <button class="chip" [class.chip-cel]="filtroCohorte === 'todos'" (click)="filtrar('todos')">Todos ({{ cohortes.length }})</button>
-          <button class="chip" [class.chip-grn]="filtroCohorte === 'activos'" (click)="filtrar('activos')">Activos</button>
-          <button class="chip" [class.chip-yel]="filtroCohorte === 'borradores'" (click)="filtrar('borradores')">Borradores</button>
-          <button class="chip" [class.chip-vio]="filtroCohorte === 'archivados'" (click)="filtrar('archivados')">Archivados</button>
+        <div 
+          class="chips-group" 
+          role="tablist" 
+          aria-label="Filtrar cohortes por estado"
+        >
+          <button 
+            type="button"
+            role="tab"
+            id="tab-todos"
+            aria-controls="panel-cohortes"
+            [attr.aria-selected]="filtroCohorte === 'todos'"
+            class="chip" 
+            [class.chip-cel]="filtroCohorte === 'todos'" 
+            (click)="filtrar('todos')"
+            aria-label="Mostrar todas las cohortes"
+          >
+            Todos ({{ cohortes.length }})
+          </button>
+          
+          <button 
+            type="button"
+            role="tab"
+            id="tab-activos"
+            aria-controls="panel-cohortes"
+            [attr.aria-selected]="filtroCohorte === 'activos'"
+            class="chip" 
+            [class.chip-grn]="filtroCohorte === 'activos'" 
+            (click)="filtrar('activos')"
+            aria-label="Filtrar por cohortes activas (ACTIVE)"
+          >
+            Activos
+          </button>
+          
+          <button 
+            type="button"
+            role="tab"
+            id="tab-borradores"
+            aria-controls="panel-cohortes"
+            [attr.aria-selected]="filtroCohorte === 'borradores'"
+            class="chip" 
+            [class.chip-yel]="filtroCohorte === 'borradores'" 
+            (click)="filtrar('borradores')"
+            aria-label="Filtrar por cohortes en borrador (DRAFT)"
+          >
+            Borradores
+          </button>
+          
+          <button 
+            type="button"
+            role="tab"
+            id="tab-archivados"
+            aria-controls="panel-cohortes"
+            [attr.aria-selected]="filtroCohorte === 'archivados'"
+            class="chip" 
+            [class.chip-vio]="filtroCohorte === 'archivados'" 
+            (click)="filtrar('archivados')"
+            aria-label="Filtrar por cohortes archivadas (ARCHIVED)"
+          >
+            Archivados
+          </button>
         </div>
 
         <div class="search-wrap">
-          <input type="text" class="input-kawaii" placeholder="Buscar cohorte o comisión..." [(ngModel)]="busquedaCohorte">
+          <input 
+            type="text" 
+            class="input-kawaii" 
+            placeholder="Buscar cohorte o comisión..." 
+            [(ngModel)]="busquedaCohorte"
+            aria-label="Buscar cohorte o comisión por nombre o materia"
+          >
         </div>
       </div>
 
-      <!-- Grilla de Tarjetas Kawaii -->
-      <div class="courses">
-        <article *ngFor="let c of cohortesFiltradas()" class="course">
-          <!-- Top de la Tarjeta -->
-          <div class="course-top" [ngClass]="c.estado === 'activo' ? 'a' : (c.estado === 'borrador' ? 'b' : 'c')">
-            <div class="row">
-              <span class="course-cohort">{{ c.periodo }}</span>
-              <span class="chip" [ngClass]="c.estado === 'activo' ? 'chip-grn' : (c.estado === 'borrador' ? 'chip-yel' : 'chip-vio')">
-                {{ c.estado | uppercase }}
-              </span>
-            </div>
-            <div class="course-header-content">
-              <h3 class="course-code">{{ c.codigoComision }}</h3>
-              <p class="course-name">{{ c.materia }}</p>
-              <div class="course-students-wrap">
-                <span class="chip chip-yel course-students-chip">
-                  <svg class="i"><use href="#i-users"/></svg> {{ c.alumnosMatriculados }} Alumnos Matriculados
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Cuerpo de la Tarjeta -->
-          <div class="course-body">
-            <div class="course-meta">
-              <span class="chip">{{ c.totalDesafios }} desafíos</span>
-              <span *ngIf="c.calibracionIAPendiente" class="chip chip-yel" style="border-color: #f59e0b;">
-                <svg class="i" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:4px;color:var(--yel);"><use href="#i-bolt"/></svg> Calibración IA pendiente
-              </span>
-            </div>
-
-            <!-- Código de Invitación con Copiado (Docente sí lo ve para compartirlo) -->
-            <div class="invitation-pill">
-              <div class="invitation-caption">CÓDIGO DE INVITACIÓN DOCENTE:</div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-                <strong class="code-text">{{ c.codigoInvitacion }}</strong>
-                <button class="btn btn-yel btn-sm" style="padding: 4px 12px; font-size: 0.72rem;" (click)="copiarCodigo(c.codigoInvitacion)">
-                  Copiar
-                </button>
-              </div>
-            </div>
-
-            <div class="course-foot">
-              <span class="cycle-info">
-                {{ c.estado === 'activo' ? 'Ciclo lectivo en curso' : (c.estado === 'borrador' ? 'En configuración' : 'Cohorte archivada') }}
-              </span>
-              <button type="button" class="btn btn-cel btn-admin-cohorte">
-                Administrar Cohorte ➔
-              </button>
-            </div>
-          </div>
-        </article>
+      <!-- Grilla de Tarjetas Kawaii con Componente Reutilizable -->
+      <div 
+        id="panel-cohortes" 
+        class="courses" 
+        role="tabpanel" 
+        aria-label="Listado de cohortes"
+      >
+        <app-cohort-card
+          *ngFor="let c of cohortesFiltradas()"
+          [cohorte]="c"
+          (copiarCodigo)="copiarCodigo($event)"
+          (administrar)="onAdministrarCohorte($event)"
+        ></app-cohort-card>
       </div>
     </div>
   </section>
