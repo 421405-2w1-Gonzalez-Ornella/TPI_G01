@@ -1,0 +1,255 @@
+<!-- BARRA HUD SUPERIOR ARCADE -->
+<header class="arcade-hud">
+  <div class="hud-brand">
+    <div class="utn-badge">UTN FRC</div>
+    <span class="hud-divider">|</span>
+    <span class="hud-title">AULA QUEST · PORTAL DEL ESTUDIANTE</span>
+  </div>
+
+  <div class="hud-user">
+    <!-- Conmutador de Roles -->
+    <div class="role-badge-switcher">
+      <button class="role-badge-btn" (click)="cambiarRol('profesor')" title="Ir a la pantalla docente">PROFESOR</button>
+      <button class="role-badge-btn active" title="Vista actual de alumno">ALUMNO</button>
+    </div>
+
+    <!-- Campana de Notificaciones -->
+    <div class="hud-stat-item notif-bell" title="Notificaciones del Sistema">
+      <span class="bell-icon">
+        <svg class="pixel-bell-svg" viewBox="0 0 16 16" width="18" height="18" fill="var(--accent-gold)" style="shape-rendering: crispEdges;">
+          <path d="M7 1h2v1H7zm-2 2h6v1H5zm-1 2h8v5h1v3H3v-3h1V5zm2 9h4v1H6zm1 1h2v1H7z"/>
+        </svg>
+      </span>
+      <span class="bell-dot"></span>
+    </div>
+
+    <!-- Perfil del Alumno con Dropdown Interactivo -->
+    <div class="hud-profile-container">
+      <div 
+        class="hud-profile-trigger" 
+        (click)="toggleMenuPerfil($event)" 
+        role="button" 
+        tabindex="0" 
+        [class.active]="menuPerfilAbierto"
+        title="Opciones de perfil y cuenta"
+      >
+        <div class="hud-avatar nes-avatar is-small is-rounded">
+          <img src="assets/steve.webp" alt="Avatar Alumno">
+        </div>
+        <div class="hud-profile-meta">
+          <div class="hud-username">
+            {{ estudianteNombre }} 
+            <span class="caret" [class.open]="menuPerfilAbierto">▼</span>
+          </div>
+          <div class="hud-userrole">{{ estudianteRol }}</div>
+        </div>
+      </div>
+
+      <!-- Menú Desplegable de Perfil Arcade -->
+      <div class="hud-profile-dropdown" *ngIf="menuPerfilAbierto" (click)="$event.stopPropagation()">
+        <span class="pixel-corner-tr"></span>
+        <span class="pixel-corner-bl"></span>
+
+        <div class="dropdown-header-info">
+          <div class="dropdown-user-name">{{ estudianteNombre }}</div>
+          <div class="dropdown-user-sub">Legajo: {{ legajo }} · {{ estudianteRol }}</div>
+          <div class="dropdown-user-email">{{ emailInstitucional }}</div>
+        </div>
+
+        <div class="dropdown-separator"></div>
+
+        <ul class="dropdown-options-list">
+          <li>
+            <button type="button" class="dropdown-item-btn" (click)="cerrarMenuPerfil()">
+              <svg class="dropdown-item-icon" viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-secondary)" style="shape-rendering: crispEdges;">
+                <path d="M5 1h6v1H5zm-1 1h8v4H4zm1 4h6v1H5zm-3 3h12v2H2zm-1 2h14v5H1z"/>
+              </svg>
+              <span>Entrar al perfil</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item-btn" (click)="cerrarMenuPerfil()">
+              <svg class="dropdown-item-icon" viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-gold)" style="shape-rendering: crispEdges;">
+                <path d="M7 1h2v2H7zm-3 2h2v1H4zm8 0h2v1h-2zm-6 2h6v6H6zm-3 3h2v2H3zm10 0h2v2h-2zm-6 3h2v2H7zm-3 1h2v1H4zm8 0h2v1h-2z"/>
+              </svg>
+              <span>Configuración</span>
+            </button>
+          </li>
+          <li class="dropdown-separator"></li>
+          <li>
+            <button type="button" class="dropdown-item-btn item-btn-danger" (click)="cerrarMenuPerfil()">
+              <svg class="dropdown-item-icon" viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-danger)" style="shape-rendering: crispEdges;">
+                <path d="M2 2h8v2H2zm6 5h6v2H8zm-6 5h8v2H2zm10-5l3-3v2h-3v2h3v2z"/>
+              </svg>
+              <span>Cerrar sesión</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CONTENEDOR PRINCIPAL -->
+<main class="cursos-container">
+
+  <!-- ENCABEZADO DEL DASHBOARD -->
+  <div class="module-header">
+    <div class="module-title-group">
+      <h1 class="pixel-heading">
+        <i class="nes-icon is-small trophy"></i> Mis Cursos y Cátedras
+      </h1>
+      <p>Explorá tus cátedras matriculadas y el estado de avance del ciclo lectivo.</p>
+    </div>
+
+    <!-- Barra de búsqueda del alumno (arriba a la derecha) -->
+    <div class="search-box">
+      <svg class="pixel-search-svg" viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-secondary)" style="shape-rendering: crispEdges; flex-shrink: 0;">
+        <path d="M2 2h5v1H2zm-1 1h7v1H1zm0 1h8v5H1zm1 5h6v1H2zm6-1h1v1H8zm1 1h2v1H9zm2 1h2v1h-2zm2 1h2v1h-2zm1 1h2v2h-2z"/>
+      </svg>
+      <input 
+        type="text" 
+        class="arcade-input" 
+        placeholder="Buscar por materia o comisión..."
+        [(ngModel)]="busquedaQuery"
+      >
+    </div>
+  </div>
+
+  <!-- BARRA DE FILTROS -->
+  <div class="filter-pills-bar">
+    <div class="filter-pills-container">
+      <button class="filter-pill-btn" [class.active]="filtroActual === 'todos'" (click)="filtrar('todos')">TODOS</button>
+      <button class="filter-pill-btn" [class.active]="filtroActual === 'activos'" (click)="filtrar('activos')">CURSOS ACTIVOS</button>
+      <button class="filter-pill-btn" [class.active]="filtroActual === 'pendientes'" (click)="filtrar('pendientes')">EN REVISIÓN</button>
+    </div>
+  </div>
+
+  <!-- SECCIÓN: MIS CURSOS ACTIVOS -->
+  <section *ngIf="filtroActual !== 'pendientes'" class="section-block">
+    <h2 class="section-title">
+      <i class="nes-icon is-small star"></i> Cátedras Habilitadas
+    </h2>
+
+    <div class="cohort-grid">
+      <article *ngFor="let curso of cursosFiltrados()" class="arcade-card arcade-card-cyan cohort-item">
+        <span class="pixel-corner-tr"></span>
+        <span class="pixel-corner-bl"></span>
+
+        <!-- Header Tarjeta -->
+        <div class="cohort-card-header">
+          <div>
+            <div class="badges-row">
+              <span class="arcade-badge arcade-badge-active">MATRICULADO</span>
+              <span class="cohort-code">{{ curso.codigoComision }}</span>
+            </div>
+            <h3 class="course-heading">{{ curso.materia }}</h3>
+            <p class="teacher-name">{{ curso.profesor }}</p>
+          </div>
+          <span class="rank-badge" title="Posición en el ranking de la cátedra">#{{ curso.posicionRanking }}</span>
+        </div>
+
+        <!-- Métricas del curso (Vidas, Monedas y Progreso por materia) -->
+        <div class="cohort-meta-info">
+          <div>
+            <small>VIDAS DISPONIBLES</small>
+            <div class="heart-stat">
+              <span *ngFor="let v of [1, 2, 3]" class="heart-item">
+                <i class="nes-icon is-small heart" [class.is-empty]="v > curso.vidasActuales"></i>
+              </span>
+            </div>
+          </div>
+          <div>
+            <small>MONEDAS DEL CURSO</small>
+            <div class="coin-stat">
+              <i class="nes-icon is-small coin"></i>
+              <span class="coin-value">{{ curso.monedas }}</span>
+            </div>
+          </div>
+          <div style="grid-column: span 2;">
+            <div class="prog-label-wrap">
+              <small>PROGRESO DEL CURSO</small>
+              <span class="prog-pct">{{ curso.progresoPorcentaje }}%</span>
+            </div>
+            <div class="capacity-bar">
+              <div class="capacity-progress" [style.width.%]="curso.progresoPorcentaje"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado de regularidad -->
+        <div class="cohort-card-footer">
+          <span class="status-indicator">
+            <span class="status-dot"></span> Cursada regular activa
+          </span>
+          <span class="xp-badge"><i class="nes-icon is-small star"></i> {{ curso.xp }} XP</span>
+        </div>
+
+        <!-- Botón para entrar al curso (sin acción) -->
+        <div class="cohort-card-actions">
+          <button type="button" class="arcade-btn arcade-btn-cyan" style="width: 100%;">
+            ENTRAR AL CURSO ➔
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: SOLICITUDES EN TRÁMITE / EN ESPERA -->
+  <section *ngIf="filtroActual !== 'activos'" class="section-block">
+    <h2 class="section-title">
+      <svg class="pixel-hourglass-svg" viewBox="0 0 16 16" width="16" height="16" fill="var(--accent-gold)" style="shape-rendering: crispEdges;">
+        <path d="M2 1h12v2h-1v1h-1v1h-1v1H9v1h-2V6H6V5H5V4H4V3H2V1zm0 14h12v-2h-1v-1h-1v-1h-1v-1H9v-1h-2v1H6v1H5v1H4v1H2v2z"/>
+      </svg>
+      Solicitudes en Espera de Validación
+    </h2>
+
+    <div *ngIf="solicitudesPendientes.length === 0" class="arcade-alert arcade-alert-info">
+      <i class="nes-icon is-small star is-empty"></i>
+      <div>No tenés solicitudes pendientes.</div>
+    </div>
+
+    <div class="cohort-grid" *ngIf="solicitudesPendientes.length > 0">
+      <article *ngFor="let sol of solicitudesPendientes" class="arcade-card arcade-card-gold cohort-item">
+        <span class="pixel-corner-tr"></span>
+        <span class="pixel-corner-bl"></span>
+
+        <div class="card-top-alert">
+          <svg class="pixel-hourglass-svg" viewBox="0 0 16 16" width="14" height="14" fill="var(--accent-gold)" style="shape-rendering: crispEdges;">
+            <path d="M2 1h12v2h-1v1h-1v1h-1v1H9v1h-2V6H6V5H5V4H4V3H2V1zm0 14h12v-2h-1v-1h-1v-1h-1v-1H9v-1h-2v1H6v1H5v1H4v1H2v2z"/>
+          </svg>
+          <span>Revisión docente requerida</span>
+        </div>
+
+        <div class="cohort-card-header">
+          <div>
+            <span class="arcade-badge arcade-badge-draft">EN ESPERA</span>
+            <h3 class="course-heading" style="margin-top: 8px;">{{ sol.cohorte }}</h3>
+          </div>
+        </div>
+
+        <p class="pending-desc">{{ sol.estado }}</p>
+
+        <div class="pending-meta">
+          <small>FECHA DE SOLICITUD</small>
+          <span class="pending-date-badge">
+            <svg class="pixel-cal-svg" viewBox="0 0 16 16" width="14" height="14" fill="var(--accent-secondary)" style="shape-rendering: crispEdges; display: inline-block; vertical-align: middle; margin-right: 4px;">
+              <path d="M1 2h14v13H1V2zm1 1v2h12V3H2zm0 3v8h12V6H2zm2-5h2v2H4V1zm6 0h2v2h-2V1z"/>
+            </svg>
+            {{ sol.fecha }}
+          </span>
+        </div>
+
+        <div class="cohort-card-actions">
+          <button type="button" class="arcade-btn arcade-btn-secondary" style="width: 100%; opacity: 0.85; font-size: 0.78rem; display: flex; align-items: center; justify-content: center; gap: 8px;" disabled>
+            <svg class="pixel-hourglass-svg" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" style="shape-rendering: crispEdges;">
+              <path d="M2 1h12v2h-1v1h-1v1h-1v1H9v1h-2V6H6V5H5V4H4V3H2V1zm0 14h12v-2h-1v-1h-1v-1h-1v-1H9v-1h-2v1H6v1H5v1H4v1H2v2z"/>
+            </svg>
+            EN REVISIÓN DOCENTE
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+</main>

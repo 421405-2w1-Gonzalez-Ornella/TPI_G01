@@ -1,0 +1,310 @@
+<!-- SVGs Inline de Estilo Kawaii -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2.3M12 19.3v2.3M4.3 12H2M22 12h-2.3M6.2 6.2 4.6 4.6M19.4 19.4l-1.6-1.6M17.8 6.2l1.6-1.6M4.6 19.4l1.6-1.6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.2 13.6A8.6 8.6 0 0 1 10.4 3.8a8.6 8.6 0 1 0 9.8 9.8Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5S3.5 15 3.5 9.2A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.5 2.8c0 5.8-8.5 11.3-8.5 11.3Z"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M9.8 10.2h3.4a1.8 1.8 0 0 1 0 3.6H9.8"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 2.5 5 13.5h5.5L10 21.5l8.5-11H13z"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 5.5H4.5v1A3.5 3.5 0 0 0 8 10M17 5.5h2.5v1A3.5 3.5 0 0 1 16 10M9.5 20h5M12 14v6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5h6.5a2.5 2.5 0 0 1 2.5 2.5v13a2 2 0 0 0-2-2H4z"/><path d="M20 4.5h-6.5A2.5 2.5 0 0 0 11 7v13a2 2 0 0 1 2-2h7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 5-2 6.5-2 6.5h16S18 14 18 9Z"/><path d="M10.3 19a2 2 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9.5" cy="8.5" r="3.5"/><path d="M3.5 20a6 6 0 0 1 12 0M17 5.4a3.5 3.5 0 0 1 0 6.2M18.5 20a6 6 0 0 0-2.2-4.6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5L13 17.5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2.5 13.8 9 20.5 11 13.8 13 12 19.5 10.2 13 3.5 11 10.2 9z" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<div class="kawaii-wrapper" [attr.data-theme]="modoOscuro ? 'dark' : 'light'">
+
+  <!-- NAVEGACIÓN KAWAII -->
+  <nav class="nav">
+    <div class="nav-in">
+      <div class="logo">
+        <span class="logo-mark"><svg class="i"><use href="#i-bolt"/></svg></span>
+        <span>UTN<span class="hl-brand">Arcade</span> <span class="badge-role">DOCENTE</span></span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a class="active-link">Mis Cohortes</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <!-- Conmutador a Vista Alumno -->
+        <button class="btn btn-cel btn-sm" (click)="cambiarRol('alumno')" title="Cambiar a pantalla de Alumno">
+          <svg class="i" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#i-book"/></svg> Vista Alumno
+        </button>
+
+        <!-- Toggle Modo Oscuro -->
+        <button class="bell" (click)="toggleModoOscuro()" [attr.aria-label]="modoOscuro ? 'Modo claro' : 'Modo oscuro'">
+          <svg class="i"><use [attr.href]="modoOscuro ? '#i-sun' : '#i-moon'"/></svg>
+        </button>
+
+        <!-- Notificaciones de cátedra -->
+        <button class="bell" title="Notificaciones de cátedra">
+          <svg class="i"><use href="#i-bell"/></svg>
+        </button>
+
+        <!-- Perfil y Menú del Profesor -->
+        <div class="profile-dropdown-wrapper">
+          <div 
+            class="teacher-profile-trigger" 
+            (click)="toggleMenuPerfil($event)"
+            role="button"
+            tabindex="0"
+            [class.active]="menuPerfilAbierto"
+            title="Opciones de perfil docente"
+          >
+            <span class="avatar">AR</span>
+            <div class="teacher-profile-meta">
+              <div class="teacher-name-txt">
+                {{ profesorNombre }}
+                <span class="caret-kawaii" [class.open]="menuPerfilAbierto">▼</span>
+              </div>
+              <div class="teacher-role-txt">{{ profesorRol }}</div>
+            </div>
+          </div>
+
+          <!-- Dropdown Docente -->
+          <div class="dropdown-kawaii" *ngIf="menuPerfilAbierto" (click)="$event.stopPropagation()">
+            <div class="dropdown-user-header">
+              <strong class="dropdown-user-name">{{ profesorNombre }}</strong>
+              <span class="dropdown-user-role">{{ profesorRol }}</span>
+              <span class="dropdown-user-sub">{{ institucion }}</span>
+            </div>
+            <div class="dropdown-sep"></div>
+            <ul class="dropdown-items">
+              <li>
+                <button type="button" class="dropdown-btn" (click)="cerrarMenuPerfil()">
+                  <svg class="i" style="width:16px;height:16px;margin-right:8px;"><use href="#i-users"/></svg>
+                  <span>Entrar al perfil</span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="dropdown-btn" (click)="cerrarMenuPerfil()">
+                  <svg class="i" style="width:16px;height:16px;margin-right:8px;"><use href="#i-bolt"/></svg>
+                  <span>Configuración</span>
+                </button>
+              </li>
+              <li class="dropdown-sep"></li>
+              <li>
+                <button type="button" class="dropdown-btn dropdown-danger" (click)="cerrarMenuPerfil()">
+                  <svg class="i" style="width:16px;height:16px;margin-right:8px;"><use href="#i-arrow"/></svg>
+                  <span>Cerrar sesión</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================
+       HOME DE PROFESOR: LISTADO DE COHORTES Y CURSOS
+       ======================================================================== -->
+
+  <!-- CABECERA KAWAII -->
+  <header class="head">
+    <div class="wrap">
+      <span class="spark s1"><svg><use href="#i-spark"/></svg></span>
+      <span class="spark s2"><svg><use href="#i-spark"/></svg></span>
+
+      <span class="chip chip-vio"><svg class="i"><use href="#i-users"/></svg>{{ institucion }}</span>
+      <h1>Hola, {{ profesorNombre }}<br>Tenés <span class="hl">3 cohortes asignadas<svg viewBox="0 0 200 12" preserveAspectRatio="none"><path d="M3 8 Q50 2 100 7 T197 5"/></svg></span> a cargo.</h1>
+      <p class="lead">Supervisá tus comisiones académicas, consultá los códigos de inscripción y gestioná las calibraciones de IA.</p>
+
+      <!-- KPIs del Profesor (Solo métricas docentes, sin solicitudes de ingreso) -->
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-lbl"><svg class="i"><use href="#i-bolt"/></svg>Estado de Cátedra</span>
+          <span class="stat-val">3 Cohortes</span>
+          <span class="stat-sub">80 alumnos matriculados · 12 desafíos activos.</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-lbl"><svg class="i" style="color:var(--yel);"><use href="#i-check"/></svg>Calibración IA</span>
+          <span class="stat-val">1 Pendiente</span>
+          <span class="stat-sub">Comisión 4K2 requiere calibración de rúbrica.</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SECCIÓN COHORTES -->
+  <section class="sec sec-cel">
+    <div class="wrap">
+      <div class="sec-top">
+        <div>
+          <h2>Mis Cohortes y Comisiones</h2>
+          <p class="sec-sub">Comisiones académicas del ciclo lectivo y códigos de inscripción de cátedra.</p>
+        </div>
+
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-yel btn-sm" (click)="abrirModalCrearPlantilla()">
+            <svg class="i" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px;"><use href="#i-book"/></svg> + Crear Plantilla
+          </button>
+          <button type="button" class="btn btn-grn btn-sm" (click)="abrirModalCrearCohorte()">
+            + Nueva Cohorte
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros y Buscador -->
+      <div class="toolbar-kawaii">
+        <div class="chips-group">
+          <button class="chip" [class.chip-cel]="filtroCohorte === 'todos'" (click)="filtrar('todos')">Todos ({{ cohortes.length }})</button>
+          <button class="chip" [class.chip-grn]="filtroCohorte === 'activos'" (click)="filtrar('activos')">Activos</button>
+          <button class="chip" [class.chip-yel]="filtroCohorte === 'borradores'" (click)="filtrar('borradores')">Borradores</button>
+          <button class="chip" [class.chip-vio]="filtroCohorte === 'archivados'" (click)="filtrar('archivados')">Archivados</button>
+        </div>
+
+        <div class="search-wrap">
+          <input type="text" class="input-kawaii" placeholder="Buscar cohorte o comisión..." [(ngModel)]="busquedaCohorte">
+        </div>
+      </div>
+
+      <!-- Grilla de Tarjetas Kawaii -->
+      <div class="courses">
+        <article *ngFor="let c of cohortesFiltradas()" class="course">
+          <!-- Top de la Tarjeta -->
+          <div class="course-top" [ngClass]="c.estado === 'activo' ? 'a' : (c.estado === 'borrador' ? 'b' : 'c')">
+            <div class="row">
+              <span class="course-cohort">{{ c.periodo }}</span>
+              <span class="chip" [ngClass]="c.estado === 'activo' ? 'chip-grn' : (c.estado === 'borrador' ? 'chip-yel' : 'chip-vio')">
+                {{ c.estado | uppercase }}
+              </span>
+            </div>
+            <div class="course-header-content">
+              <h3 class="course-code">{{ c.codigoComision }}</h3>
+              <p class="course-name">{{ c.materia }}</p>
+              <div class="course-students-wrap">
+                <span class="chip chip-yel course-students-chip">
+                  <svg class="i"><use href="#i-users"/></svg> {{ c.alumnosMatriculados }} Alumnos Matriculados
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cuerpo de la Tarjeta -->
+          <div class="course-body">
+            <div class="course-meta">
+              <span class="chip">{{ c.totalDesafios }} desafíos</span>
+              <span *ngIf="c.calibracionIAPendiente" class="chip chip-yel" style="border-color: #f59e0b;">
+                <svg class="i" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:4px;color:var(--yel);"><use href="#i-bolt"/></svg> Calibración IA pendiente
+              </span>
+            </div>
+
+            <!-- Código de Invitación con Copiado (Docente sí lo ve para compartirlo) -->
+            <div class="invitation-pill">
+              <div class="invitation-caption">CÓDIGO DE INVITACIÓN DOCENTE:</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+                <strong class="code-text">{{ c.codigoInvitacion }}</strong>
+                <button class="btn btn-yel btn-sm" style="padding: 4px 12px; font-size: 0.72rem;" (click)="copiarCodigo(c.codigoInvitacion)">
+                  Copiar
+                </button>
+              </div>
+            </div>
+
+            <div class="course-foot">
+              <span class="cycle-info">
+                {{ c.estado === 'activo' ? 'Ciclo lectivo en curso' : (c.estado === 'borrador' ? 'En configuración' : 'Cohorte archivada') }}
+              </span>
+              <button type="button" class="btn btn-cel btn-admin-cohorte">
+                Administrar Cohorte ➔
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL: CREAR COHORTE -->
+  <div *ngIf="modalCrearCohorteAbierto" class="modal-backdrop-kawaii">
+    <div class="modal-content-kawaii">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 class="modal-title"><svg class="i" style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;"><use href="#i-bolt"/></svg>Crear Nueva Cohorte</h3>
+        <button class="btn btn-w btn-sm" (click)="cerrarModalCrearCohorte()">✕</button>
+      </div>
+
+      <div class="chips-group" style="margin-bottom: 20px;">
+        <button class="chip" [class.chip-cel]="pasoWizard === 1" (click)="pasoWizard = 1">1. Origen y Template</button>
+        <button class="chip" [class.chip-cel]="pasoWizard === 2" (click)="pasoWizard = 2">2. Parámetros de Comisión</button>
+      </div>
+
+      <div *ngIf="pasoWizard === 1">
+        <div class="panel-card" style="margin-bottom: 14px; padding: 14px;">
+          <strong style="color: var(--cel);">Opción A: Template Base</strong>
+          <p style="font-size: 0.88rem; color: var(--ink-soft); margin: 6px 0 10px;">Programación IV (Plan 2026 - UTN FRC)</p>
+          <select class="input-kawaii">
+            <option>Programación IV - Plan 2026</option>
+            <option>Soporte Físico y Redes</option>
+          </select>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button class="btn btn-w btn-sm" (click)="cerrarModalCrearCohorte()">Cancelar</button>
+          <button class="btn btn-cel btn-sm" (click)="pasoWizard = 2">Siguiente Paso ➔</button>
+        </div>
+      </div>
+
+      <div *ngIf="pasoWizard === 2">
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 4px;">NOMBRE DE COMISIÓN *</label>
+          <input type="text" class="input-kawaii" [(ngModel)]="nuevoNombreComision">
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 4px;">CÓDIGO GENERADO</label>
+          <input type="text" class="input-kawaii" [(ngModel)]="nuevoCodigoCohorte" readonly style="color: var(--cel); font-weight: 800;">
+        </div>
+
+        <div style="display: flex; justify-content: space-between; gap: 8px;">
+          <button class="btn btn-w btn-sm" (click)="pasoWizard = 1">⬅ Atrás</button>
+          <button class="btn btn-grn btn-sm" (click)="guardarCohorteDraft()">Guardar Cohorte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREAR PLANTILLA -->
+  <div *ngIf="modalCrearPlantillaAbierto" class="modal-backdrop-kawaii">
+    <div class="modal-content-kawaii">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h3 class="modal-title"><svg class="i" style="width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:6px;"><use href="#i-book"/></svg>Registrar Nueva Plantilla Curricular</h3>
+        <button class="btn btn-w btn-sm" (click)="cerrarModalCrearPlantilla()">✕</button>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 4px;">NOMBRE DE LA PLANTILLA / CURSO BASE *</label>
+        <input type="text" class="input-kawaii" [(ngModel)]="nuevaPlantillaNombre" placeholder="Ej: Programación IV - Plan 2026">
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 4px;">CARRERA / ÁREA ACADÉMICA *</label>
+        <input type="text" class="input-kawaii" [(ngModel)]="nuevaPlantillaMateria" placeholder="Ej: Tecnicatura Universitaria en Programación">
+      </div>
+
+      <div style="margin-bottom: 18px;">
+        <label style="display: block; font-weight: 800; font-size: 0.8rem; margin-bottom: 4px;">DESCRIPCIÓN PEDAGÓGICA Y ALCANCE</label>
+        <textarea class="input-kawaii" style="border-radius: 14px; min-height: 80px; resize: vertical;" [(ngModel)]="nuevaPlantillaDescripcion" placeholder="Describe los contenidos curriculares y objetivos..."></textarea>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn btn-w btn-sm" (click)="cerrarModalCrearPlantilla()">Cancelar</button>
+        <button type="button" class="btn btn-yel btn-sm" (click)="guardarPlantilla()">Guardar Plantilla</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIE DE PÁGINA KAWAII -->
+  <footer class="foot">
+    <div class="wrap foot-in">
+      <p>Plataforma Gamificada TUP · Gestión Académica Docente · UTN Facultad Regional Córdoba</p>
+      <button class="btn btn-cel btn-sm" (click)="cambiarRol('alumno')">
+        Ir a Vista Alumno ➔
+      </button>
+    </div>
+  </footer>
+
+</div>
